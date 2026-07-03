@@ -1,0 +1,162 @@
+/*
+ * Replica el layout del PDF institucional (plantilla POLI, formato DE-DIRGI).
+ * Usado por: vista Consulta (lectura), Edición (mismos campos como inputs),
+ * e Impresión (idéntico al PDF, @media print oculta controles).
+ * Ver docs/plan §"Especificación visual (replicar el PDF institucional)".
+ */
+
+.ficha {
+  background: #fff;
+  border: 1px solid var(--color-border);
+  font-size: 0.85rem;
+}
+
+/* 1. Encabezado de formato: logo | proceso/subproceso + título | código/versión */
+.ficha__encabezado {
+  display: grid;
+  grid-template-columns: 140px 1fr 200px;
+  border-bottom: 2px solid var(--color-navy-dark);
+}
+
+.ficha__encabezado > div {
+  padding: 0.5rem 0.75rem;
+  border-right: 1px solid var(--color-border);
+}
+
+.ficha__encabezado > div:last-child { border-right: none; }
+
+.ficha__logo img { max-width: 100%; }
+
+.ficha__titulo-formato {
+  text-align: center;
+  font-weight: 700;
+}
+
+.ficha__titulo-formato small {
+  display: block;
+  font-weight: 400;
+  font-size: 0.75rem;
+}
+
+.ficha__meta-formato div { font-size: 0.75rem; }
+
+/* 2. Barra de sección */
+.ficha__seccion-titulo {
+  background: var(--color-navy-dark);
+  color: #fff;
+  text-align: center;
+  padding: 0.4rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+}
+
+/* 3. Filas de campos: pastilla azul (etiqueta) + valor */
+.ficha__fila {
+  display: grid;
+  gap: 1px;
+  background: var(--color-border);
+}
+
+.ficha__fila--1 { grid-template-columns: 1fr; }
+.ficha__fila--2 { grid-template-columns: 1fr 1fr; }
+.ficha__fila--3 { grid-template-columns: 1fr 1fr 1fr; }
+
+.ficha__campo {
+  display: grid;
+  grid-template-columns: minmax(120px, 40%) 1fr;
+  background: #fff;
+}
+
+.ficha__campo--full { grid-column: 1 / -1; }
+
+.ficha__etiqueta {
+  background: var(--color-navy-mid);
+  color: #fff;
+  padding: 0.4rem 0.6rem;
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+}
+
+.ficha__valor {
+  padding: 0.4rem 0.6rem;
+  display: flex;
+  align-items: center;
+  min-height: 1.8rem;
+}
+
+.ficha__valor input,
+.ficha__valor select,
+.ficha__valor textarea {
+  width: 100%;
+  border: 1px solid var(--color-border);
+  padding: 0.25rem 0.4rem;
+  font-family: inherit;
+  font-size: 0.85rem;
+}
+
+.ficha__valor textarea { resize: vertical; min-height: 3rem; }
+
+/* 4. Variables — bloque repetible */
+.ficha__variables { display: flex; flex-direction: column; gap: 1px; background: var(--color-border); }
+
+.ficha__variable-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #eef3f8;
+  padding: 0.3rem 0.6rem;
+}
+
+.ficha__variable-header button { font-size: 0.75rem; }
+
+/* 5. Metas y zonas */
+.ficha__zonas-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.5rem 0;
+}
+
+.ficha__zonas-tabla caption {
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.8rem;
+  padding: 0.3rem 0.6rem;
+  background: #eef3f8;
+}
+
+.ficha__zonas-tabla th {
+  padding: 0.4rem;
+  font-size: 0.75rem;
+  color: #fff;
+}
+
+.ficha__zonas-tabla td {
+  padding: 0.4rem;
+  text-align: center;
+  font-size: 0.8rem;
+  border: 1px solid var(--color-border);
+}
+
+.zona-deficiente { background: var(--zona-deficiente-bg); color: var(--zona-deficiente-fg); }
+.zona-alerta { background: var(--zona-alerta-bg); color: var(--zona-alerta-fg); }
+.zona-cumplimiento { background: var(--zona-cumplimiento-bg); color: var(--zona-cumplimiento-fg); }
+.zona-sobrecumplimiento { background: var(--zona-sobrecumplimiento-bg); color: var(--zona-sobrecumplimiento-fg); }
+
+/* ---- Modo impresión / PDF ---- */
+@media print {
+  body { background: #fff; }
+  .app-nav, .tabs, .btn, .no-imprimir { display: none !important; }
+  .ficha { border: none; }
+  .ficha__valor input,
+  .ficha__valor select,
+  .ficha__valor textarea {
+    border: none;
+    background: transparent;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  @page { size: A4; margin: 12mm; }
+}

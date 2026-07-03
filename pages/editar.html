@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>Editar Ficha Técnica</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="../css/main.css" />
+  <link rel="stylesheet" href="../css/ficha-print.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <nav class="app-nav">
+      <a href="consultar.html">Consultar</a>
+      <a href="crear.html">Crear ficha</a>
+    </nav>
+
+    <h1>Editar Ficha Técnica</h1>
+
+    <div id="panel-editar"></div>
+
+    <div class="ficha__seccion-titulo">Solicitud de Modificación</div>
+    <div class="ficha__fila ficha__fila--3">
+      <div class="ficha__campo">
+        <div class="ficha__etiqueta">Comentarios</div>
+        <div class="ficha__valor"><textarea id="comentarios-solicitud"></textarea></div>
+      </div>
+      <div class="ficha__campo">
+        <div class="ficha__etiqueta">Fecha de solicitud</div>
+        <div class="ficha__valor"><input id="fecha-solicitud" type="date" disabled /></div>
+      </div>
+      <div class="ficha__campo">
+        <div class="ficha__etiqueta">Responsable del cambio</div>
+        <div class="ficha__valor">
+          <select id="responsable-cambio"><option value="">Seleccione</option></select>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:1rem;">
+      <button id="btn-guardar" class="btn">Guardar cambios</button>
+    </div>
+  </div>
+
+  <script src="../js/config.js"></script>
+  <script type="module" src="../js/views/editar.js"></script>
+</body>
+</html>

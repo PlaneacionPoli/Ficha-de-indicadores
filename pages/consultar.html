@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>Consultar Ficha Técnica</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="../css/main.css" />
+  <link rel="stylesheet" href="../css/ficha-print.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <nav class="app-nav">
+      <a href="consultar.html" class="active">Consultar</a>
+      <a href="crear.html">Crear ficha</a>
+    </nav>
+
+    <h1>Consultar Fichas Técnicas</h1>
+
+    <div class="filtros">
+      <label>Proceso <select id="filtro-proceso"><option value="">Todos</option></select></label>
+      <label>Subproceso <select id="filtro-subproceso"><option value="">Todos</option></select></label>
+      <label>Nombre <input id="filtro-nombre" type="text" placeholder="Buscar por nombre..." /></label>
+      <label>ID Kawak <input id="filtro-id" type="number" /></label>
+      <label>Responsable <input id="filtro-responsable" type="text" /></label>
+      <label style="justify-content: flex-end;"><button id="btn-buscar" class="btn">Buscar</button></label>
+    </div>
+
+    <table id="tabla-resultados" class="tabla-resultados">
+      <thead>
+        <tr><th>ID Kawak</th><th>Nombre</th><th>Proceso</th><th>Subproceso</th><th>Responsable</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <div id="detalle-ficha" style="display:none; margin-top: 1.5rem;">
+      <div class="no-imprimir" style="display:flex; gap:0.5rem; margin-bottom:0.5rem;">
+        <a id="btn-editar" class="btn">Editar</a>
+        <a id="btn-imprimir" class="btn secondary" target="_blank">Generar PDF</a>
+      </div>
+
+      <div class="tabs no-imprimir">
+        <button data-tab="ficha" class="active">Ficha Técnica</button>
+        <button data-tab="metas">Metas Históricas</button>
+        <button data-tab="cambios">Control de Cambios</button>
+      </div>
+
+      <div class="tab-panel active" data-tab="ficha">
+        <div id="panel-ficha"></div>
+      </div>
+
+      <div class="tab-panel" data-tab="metas">
+        <table class="tabla-resultados" id="tabla-metas">
+          <thead><tr><th>Año</th><th>Meta Frecuencia</th><th>Meta Sem 1</th><th>Meta Sem 2</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <div class="tab-panel" data-tab="cambios">
+        <table class="tabla-resultados" id="tabla-cambios">
+          <thead><tr><th>Fecha</th><th>Usuario</th><th>Campo</th><th>Valor anterior</th><th>Valor nuevo</th><th>Justificación</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/config.js"></script>
+  <script type="module" src="../js/views/consultar.js"></script>
+</body>
+</html>

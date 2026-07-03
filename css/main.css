@@ -1,0 +1,143 @@
+:root {
+  --color-navy-dark: #12233f;
+  --color-navy-mid: #1c3f66;
+  --color-bg: #f4f6f9;
+  --color-border: #d6dde5;
+  --color-text: #1a1a1a;
+
+  --zona-deficiente-bg: #e53935;
+  --zona-deficiente-fg: #ffffff;
+  --zona-alerta-bg: #ffd400;
+  --zona-alerta-fg: #000000;
+  --zona-cumplimiento-bg: #2e7d32;
+  --zona-cumplimiento-fg: #ffffff;
+  --zona-sobrecumplimiento-bg: #29abe2;
+  --zona-sobrecumplimiento-fg: #ffffff;
+
+  --radius: 4px;
+  --font: "Segoe UI", system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  color: var(--color-text);
+  background: var(--color-bg);
+}
+
+.app-shell {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.app-nav {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.app-nav a {
+  padding: 0.5rem 1rem;
+  background: var(--color-navy-dark);
+  color: #fff;
+  text-decoration: none;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+}
+
+.app-nav a.active { background: var(--color-navy-mid); }
+
+/* ---- Filtros de búsqueda (vista Consulta) ---- */
+.filtros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  background: #fff;
+  padding: 1rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--color-border);
+}
+
+.filtros label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.8rem;
+  gap: 0.25rem;
+  flex: 1 1 160px;
+}
+
+.tabla-resultados {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+}
+
+.tabla-resultados th, .tabla-resultados td {
+  border: 1px solid var(--color-border);
+  padding: 0.4rem 0.6rem;
+  text-align: left;
+  font-size: 0.85rem;
+}
+
+.tabla-resultados tr:hover { background: #eef3f8; cursor: pointer; }
+
+/* ---- Tabs de la ficha ---- */
+.tabs {
+  display: flex;
+  gap: 0.25rem;
+  margin: 1rem 0 0;
+}
+
+.tabs button {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--color-border);
+  border-bottom: none;
+  background: #e9eef3;
+  cursor: pointer;
+  border-radius: var(--radius) var(--radius) 0 0;
+  font-size: 0.85rem;
+}
+
+.tabs button.active { background: #fff; font-weight: 600; }
+
+.tab-panel {
+  display: none;
+  background: #fff;
+  border: 1px solid var(--color-border);
+  padding: 1rem;
+}
+
+.tab-panel.active { display: block; }
+
+.btn {
+  padding: 0.5rem 1.2rem;
+  border: none;
+  border-radius: var(--radius);
+  background: var(--color-navy-dark);
+  color: #fff;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.btn.secondary { background: #64748b; }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.campo-obligatorio-error { border-color: #e53935 !important; }
+
+.toast {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--radius);
+  color: #fff;
+  background: #1a1a1a;
+  z-index: 1000;
+}
+
+.toast.error { background: var(--zona-deficiente-bg); }
+.toast.success { background: var(--zona-cumplimiento-bg); }
