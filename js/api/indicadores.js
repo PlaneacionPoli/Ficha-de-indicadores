@@ -14,16 +14,18 @@ export const CAMPOS_FICHA = [
   "formato_evidencia", "nombre_evidencia", "tipo_kawak",
 ];
 
-export async function buscarIndicadores({ proceso, subproceso, nombre, idKawak, responsable } = {}) {
-  let query = supabase.from("indicadores").select("*");
+export async function buscarIndicadores({ proceso, subproceso, nombre, idKawak, responsable, pagina = 1, porPagina = 25 } = {}) {
+  let query = supabase.from("indicadores").select("*", { count: "exact" });
   if (proceso) query = query.eq("proceso", proceso);
   if (subproceso) query = query.eq("subproceso", subproceso);
   if (nombre) query = query.ilike("nombre_indicador", `%${nombre}%`);
   if (idKawak) query = query.eq("id_kawak", idKawak);
   if (responsable) query = query.or(`responsable_calculo.ilike.%${responsable}%,responsable_analisis.ilike.%${responsable}%`);
-  const { data, error } = await query.order("id_kawak", { ascending: false });
+  const desde = (pagina - 1) * porPagina;
+  const hasta = desde + porPagina - 1;
+  const { data, error, count } = await query.order("id_kawak", { ascending: true }).range(desde, hasta);
   if (error) throw error;
-  return data;
+  return { rows: data, total: count };
 }
 
 export async function getIndicador(idKawak) {

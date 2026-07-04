@@ -34,6 +34,9 @@ async function poblarSelectProcesos() {
   });
 }
 
+let paginaActual = 1;
+let porPagina = 25;
+
 function renderTablaResultados(rows) {
   const tbody = document.querySelector("#tabla-resultados tbody");
   tbody.innerHTML = "";
@@ -45,6 +48,13 @@ function renderTablaResultados(rows) {
   }
 }
 
+function renderPaginacion(total) {
+  const totalPaginas = Math.max(1, Math.ceil(total / porPagina));
+  document.querySelector("#paginacion-info").textContent = `Página ${paginaActual} de ${totalPaginas}`;
+  document.querySelector("#btn-pagina-anterior").disabled = paginaActual <= 1;
+  document.querySelector("#btn-pagina-siguiente").disabled = paginaActual >= totalPaginas;
+}
+
 async function buscar() {
   const proceso = document.querySelector("#filtro-proceso").value || undefined;
   const subproceso = document.querySelector("#filtro-subproceso").value || undefined;
@@ -52,11 +62,17 @@ async function buscar() {
   const idKawak = document.querySelector("#filtro-id").value || undefined;
   const responsable = document.querySelector("#filtro-responsable").value || undefined;
   try {
-    const rows = await buscarIndicadores({ proceso, subproceso, nombre, idKawak, responsable });
+    const { rows, total } = await buscarIndicadores({ proceso, subproceso, nombre, idKawak, responsable, pagina: paginaActual, porPagina });
     renderTablaResultados(rows);
+    renderPaginacion(total);
   } catch (e) {
     mostrarToast(`Error buscando fichas: ${e.message}`, "error");
   }
+}
+
+function buscarDesdeInicio() {
+  paginaActual = 1;
+  buscar();
 }
 
 function activarTab(nombre) {
@@ -101,8 +117,21 @@ async function mostrarFicha(idKawak) {
 async function init() {
   if (!(await protegerPagina())) return;
   document.querySelectorAll(".tabs button").forEach((b) => b.addEventListener("click", () => activarTab(b.dataset.tab)));
-  document.querySelector("#btn-buscar").addEventListener("click", buscar);
+  document.querySelector("#btn-buscar").addEventListener("click", buscarDesdeInicio);
+  document.querySelector("#filtro-por-pagina").addEventListener("change", (e) => {
+    porPagina = Number(e.target.value);
+    buscarDesdeInicio();
+  });
+  document.querySelector("#btn-pagina-anterior").addEventListener("click", () => {
+    paginaActual -= 1;
+    buscar();
+  });
+  document.querySelector("#btn-pagina-siguiente").addEventListener("click", () => {
+    paginaActual += 1;
+    buscar();
+  });
   await poblarSelectProcesos();
+  await buscar();
 }
 
 init();
