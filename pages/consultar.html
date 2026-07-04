@@ -64,35 +64,44 @@
           </div>
         </div>
 
-        <div id="detalle-ficha" style="display:none; margin-top: 1.5rem;">
-          <div class="no-imprimir detalle-acciones">
-            <a id="btn-editar" class="btn"><span aria-hidden="true">✎</span> Editar</a>
-            <a id="btn-imprimir" class="btn secondary" target="_blank"><span aria-hidden="true">🖨</span> Generar PDF</a>
-          </div>
+      </div>
+    </div>
+  </div>
 
-          <div class="tabs no-imprimir">
-            <button data-tab="ficha" class="active">Ficha Técnica</button>
-            <button data-tab="metas">Metas Históricas</button>
-            <button data-tab="cambios">Control de Cambios</button>
-          </div>
+  <div id="modal-ficha" class="modal-overlay no-imprimir" hidden>
+    <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="modal-ficha-titulo">
+      <div class="modal-dialog__header">
+        <h2 id="modal-ficha-titulo">Detalle de la Ficha</h2>
+        <button type="button" id="btn-cerrar-modal" class="modal-dialog__cerrar" aria-label="Cerrar">✕</button>
+      </div>
+      <div class="modal-dialog__body">
+        <div class="no-imprimir detalle-acciones">
+          <a id="btn-editar" class="btn"><span aria-hidden="true">✎</span> Editar</a>
+          <a id="btn-imprimir" class="btn secondary" target="_blank"><span aria-hidden="true">🖨</span> Generar PDF</a>
+        </div>
 
-          <div class="tab-panel active" data-tab="ficha">
-            <div id="panel-ficha"></div>
-          </div>
+        <div class="tabs no-imprimir">
+          <button data-tab="ficha" class="active">Ficha Técnica</button>
+          <button data-tab="metas">Metas Históricas</button>
+          <button data-tab="cambios">Control de Cambios</button>
+        </div>
 
-          <div class="tab-panel" data-tab="metas">
-            <table class="tabla-resultados" id="tabla-metas">
-              <thead><tr><th>Año</th><th>Meta Frecuencia</th><th>Meta Sem 1</th><th>Meta Sem 2</th></tr></thead>
-              <tbody></tbody>
-            </table>
-          </div>
+        <div class="tab-panel active" data-tab="ficha">
+          <div id="panel-ficha"></div>
+        </div>
 
-          <div class="tab-panel" data-tab="cambios">
-            <table class="tabla-resultados" id="tabla-cambios">
-              <thead><tr><th>Fecha</th><th>Usuario</th><th>Campo</th><th>Valor anterior</th><th>Valor nuevo</th><th>Justificación</th></tr></thead>
-              <tbody></tbody>
-            </table>
-          </div>
+        <div class="tab-panel" data-tab="metas">
+          <table class="tabla-resultados" id="tabla-metas">
+            <thead><tr><th>Año</th><th>Meta Frecuencia</th><th>Meta Sem 1</th><th>Meta Sem 2</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+
+        <div class="tab-panel" data-tab="cambios">
+          <table class="tabla-resultados" id="tabla-cambios">
+            <thead><tr><th>Fecha</th><th>Usuario</th><th>Campo</th><th>Valor anterior</th><th>Valor nuevo</th><th>Justificación</th></tr></thead>
+            <tbody></tbody>
+          </table>
         </div>
       </div>
     </div>

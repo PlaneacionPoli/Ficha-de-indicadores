@@ -118,8 +118,18 @@ function activarTab(nombre) {
   document.querySelectorAll(".tab-panel").forEach((p) => p.classList.toggle("active", p.dataset.tab === nombre));
 }
 
+function cerrarModal() {
+  document.querySelector("#modal-ficha").hidden = true;
+  document.body.style.overflow = "";
+}
+
+function abrirModal() {
+  document.querySelector("#modal-ficha").hidden = false;
+  document.body.style.overflow = "hidden";
+}
+
 async function mostrarFicha(idKawak) {
-  document.querySelector("#detalle-ficha").style.display = "block";
+  abrirModal();
   document.querySelector("#btn-editar").href = `editar.html?id=${idKawak}`;
   document.querySelector("#btn-imprimir").href = `imprimir.html?id=${idKawak}`;
 
@@ -167,6 +177,13 @@ async function init() {
   document.querySelector("#btn-pagina-siguiente").addEventListener("click", () => {
     paginaActual += 1;
     buscar();
+  });
+  document.querySelector("#btn-cerrar-modal").addEventListener("click", cerrarModal);
+  document.querySelector("#modal-ficha").addEventListener("click", (e) => {
+    if (e.target.id === "modal-ficha") cerrarModal();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !document.querySelector("#modal-ficha").hidden) cerrarModal();
   });
   await poblarSelectProcesos();
   await buscar();

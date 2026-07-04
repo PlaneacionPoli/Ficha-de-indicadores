@@ -573,6 +573,65 @@ input:disabled, select:disabled, textarea:disabled {
 .login-msg.success { color: var(--zona-cumplimiento-bg); }
 .login-msg.error { color: var(--zona-deficiente-bg); }
 
+/* ---- Modal de detalle de ficha ---- */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.5);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: var(--space-6) var(--space-4);
+  overflow-y: auto;
+  z-index: 900;
+}
+
+.modal-overlay[hidden] { display: none; }
+
+.modal-dialog {
+  width: 100%;
+  max-width: 960px;
+  max-height: calc(100vh - var(--space-6) * 2);
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+}
+
+.modal-dialog__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-4) var(--space-5);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.modal-dialog__header h2 {
+  font-size: var(--fs-lg);
+  color: var(--gray-900);
+  margin: 0;
+}
+
+.modal-dialog__cerrar {
+  border: none;
+  background: transparent;
+  color: var(--gray-500);
+  font-size: var(--fs-lg);
+  line-height: 1;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.modal-dialog__cerrar:hover { background: var(--gray-100); color: var(--gray-900); }
+
+.modal-dialog__body {
+  padding: var(--space-5);
+  overflow-y: auto;
+}
+
 .toast {
   position: fixed;
   bottom: var(--space-5);
