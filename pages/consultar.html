@@ -8,74 +8,92 @@
   <link rel="stylesheet" href="../css/ficha-screen.css" />
 </head>
 <body>
-  <div class="app-shell">
-    <nav class="app-nav">
-      <a href="consultar.html" class="active">Consultar</a>
-      <a href="crear.html">Crear ficha</a>
-    </nav>
-
-    <h1>Consultar Fichas Técnicas</h1>
-
-    <div class="filtros">
-      <label>Proceso <select id="filtro-proceso"><option value="">Todos</option></select></label>
-      <label>Subproceso <select id="filtro-subproceso"><option value="">Todos</option></select></label>
-      <label>Nombre <input id="filtro-nombre" type="text" placeholder="Buscar por nombre..." /></label>
-      <label>ID Kawak <input id="filtro-id" type="number" /></label>
-      <label>Responsable <input id="filtro-responsable" type="text" /></label>
-      <div class="filtros__actions"><button id="btn-buscar" class="btn">Buscar</button></div>
-    </div>
-
-    <table id="tabla-resultados" class="tabla-resultados">
-      <thead>
-        <tr><th>ID Kawak</th><th>Nombre</th><th>Proceso</th><th>Subproceso</th><th>Responsable</th></tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-
-    <div class="paginacion no-imprimir">
-      <label>Por página
-        <select id="filtro-por-pagina">
-          <option value="10">10</option>
-          <option value="25" selected>25</option>
-          <option value="50">50</option>
-          <option value="100">100</option>
-        </select>
-      </label>
-      <div class="paginacion__controles">
-        <button id="btn-pagina-anterior" class="btn ghost" type="button">‹ Anterior</button>
-        <span id="paginacion-info">Página 1 de 1</span>
-        <button id="btn-pagina-siguiente" class="btn ghost" type="button">Siguiente ›</button>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="sidebar__brand">
+        <span class="sidebar__brand-icon" aria-hidden="true">📐</span>
+        <div>
+          <div class="sidebar__brand-title">Fichas Técnicas</div>
+          <div class="sidebar__brand-subtitle">Politécnico Grancolombiano</div>
+        </div>
       </div>
-    </div>
+      <nav class="sidebar__nav">
+        <a href="consultar.html" class="sidebar__link active">🔍 Consultar</a>
+        <a href="crear.html" class="sidebar__link">➕ Crear ficha</a>
+      </nav>
+      <a href="#" id="btn-salir" class="sidebar__link sidebar__link--danger">🚪 Salir</a>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <h1 class="topbar__title">Consultar Fichas Técnicas</h1>
+        <div class="topbar__user" id="topbar-user"></div>
+      </header>
+      <div class="content">
+        <div class="filtros">
+          <label>Proceso <select id="filtro-proceso"><option value="">Todos</option></select></label>
+          <label>Subproceso <select id="filtro-subproceso"><option value="">Todos</option></select></label>
+          <label>Nombre <input id="filtro-nombre" type="text" placeholder="Buscar por nombre..." /></label>
+          <label>ID Kawak <input id="filtro-id" type="number" /></label>
+          <label>Responsable <input id="filtro-responsable" type="text" /></label>
+          <div class="filtros__actions"><button id="btn-buscar" class="btn">Buscar</button></div>
+        </div>
 
-    <div id="detalle-ficha" style="display:none; margin-top: 1.5rem;">
-      <div class="no-imprimir detalle-acciones">
-        <a id="btn-editar" class="btn"><span aria-hidden="true">✎</span> Editar</a>
-        <a id="btn-imprimir" class="btn secondary" target="_blank"><span aria-hidden="true">🖨</span> Generar PDF</a>
-      </div>
+        <div class="tabla-scroll">
+          <table id="tabla-resultados" class="tabla-resultados">
+            <thead>
+              <tr><th>ID Kawak</th><th>Nombre</th><th>Proceso</th><th>Subproceso</th><th>Frecuencia</th><th>Tipo</th><th>Responsable</th></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
 
-      <div class="tabs no-imprimir">
-        <button data-tab="ficha" class="active">Ficha Técnica</button>
-        <button data-tab="metas">Metas Históricas</button>
-        <button data-tab="cambios">Control de Cambios</button>
-      </div>
+        <div class="paginacion no-imprimir">
+          <label>Por página
+            <select id="filtro-por-pagina">
+              <option value="10">10</option>
+              <option value="25" selected>25</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>
+          </label>
+          <span id="paginacion-info"></span>
+          <div class="paginacion__controles">
+            <button id="btn-pagina-anterior" class="btn ghost" type="button">‹</button>
+            <div class="paginacion__paginas" id="paginacion-paginas"></div>
+            <button id="btn-pagina-siguiente" class="btn ghost" type="button">›</button>
+          </div>
+        </div>
 
-      <div class="tab-panel active" data-tab="ficha">
-        <div id="panel-ficha"></div>
-      </div>
+        <div id="detalle-ficha" style="display:none; margin-top: 1.5rem;">
+          <div class="no-imprimir detalle-acciones">
+            <a id="btn-editar" class="btn"><span aria-hidden="true">✎</span> Editar</a>
+            <a id="btn-imprimir" class="btn secondary" target="_blank"><span aria-hidden="true">🖨</span> Generar PDF</a>
+          </div>
 
-      <div class="tab-panel" data-tab="metas">
-        <table class="tabla-resultados" id="tabla-metas">
-          <thead><tr><th>Año</th><th>Meta Frecuencia</th><th>Meta Sem 1</th><th>Meta Sem 2</th></tr></thead>
-          <tbody></tbody>
-        </table>
-      </div>
+          <div class="tabs no-imprimir">
+            <button data-tab="ficha" class="active">Ficha Técnica</button>
+            <button data-tab="metas">Metas Históricas</button>
+            <button data-tab="cambios">Control de Cambios</button>
+          </div>
 
-      <div class="tab-panel" data-tab="cambios">
-        <table class="tabla-resultados" id="tabla-cambios">
-          <thead><tr><th>Fecha</th><th>Usuario</th><th>Campo</th><th>Valor anterior</th><th>Valor nuevo</th><th>Justificación</th></tr></thead>
-          <tbody></tbody>
-        </table>
+          <div class="tab-panel active" data-tab="ficha">
+            <div id="panel-ficha"></div>
+          </div>
+
+          <div class="tab-panel" data-tab="metas">
+            <table class="tabla-resultados" id="tabla-metas">
+              <thead><tr><th>Año</th><th>Meta Frecuencia</th><th>Meta Sem 1</th><th>Meta Sem 2</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+
+          <div class="tab-panel" data-tab="cambios">
+            <table class="tabla-resultados" id="tabla-cambios">
+              <thead><tr><th>Fecha</th><th>Usuario</th><th>Campo</th><th>Valor anterior</th><th>Valor nuevo</th><th>Justificación</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   </div>

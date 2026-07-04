@@ -8,19 +8,35 @@
   <link rel="stylesheet" href="../css/ficha-screen.css" />
 </head>
 <body>
-  <div class="app-shell">
-    <nav class="app-nav">
-      <a href="consultar.html">Consultar</a>
-      <a href="crear.html" class="active">Crear ficha</a>
-    </nav>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="sidebar__brand">
+        <span class="sidebar__brand-icon" aria-hidden="true">📐</span>
+        <div>
+          <div class="sidebar__brand-title">Fichas Técnicas</div>
+          <div class="sidebar__brand-subtitle">Politécnico Grancolombiano</div>
+        </div>
+      </div>
+      <nav class="sidebar__nav">
+        <a href="consultar.html" class="sidebar__link">🔍 Consultar</a>
+        <a href="crear.html" class="sidebar__link active">➕ Crear ficha</a>
+      </nav>
+      <a href="#" id="btn-salir" class="sidebar__link sidebar__link--danger">🚪 Salir</a>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <h1 class="topbar__title">Crear Ficha Técnica</h1>
+        <div class="topbar__user" id="topbar-user"></div>
+      </header>
+      <div class="content">
+        <p>El ID Kawak se genera automáticamente (MAX existente + 1) al guardar.</p>
 
-    <h1>Crear Ficha Técnica</h1>
-    <p>El ID Kawak se genera automáticamente (MAX existente + 1) al guardar.</p>
+        <div id="panel-crear"></div>
 
-    <div id="panel-crear"></div>
-
-    <div class="ficha-acciones">
-      <button id="btn-guardar" class="btn">Guardar ficha</button>
+        <div class="ficha-acciones">
+          <button id="btn-guardar" class="btn">Guardar ficha</button>
+        </div>
+      </div>
     </div>
   </div>
 

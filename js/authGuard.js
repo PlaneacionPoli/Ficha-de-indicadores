@@ -16,17 +16,19 @@ function rutas() {
 }
 
 function pintarUsuarioNav(email, loginPath) {
-  const nav = document.querySelector(".app-nav");
-  if (!nav) return;
-  const bar = document.createElement("span");
-  bar.className = "app-nav__user";
-  bar.innerHTML = `${email} · <a href="#" id="btn-salir">Salir</a>`;
-  nav.appendChild(bar);
-  bar.querySelector("#btn-salir").addEventListener("click", async (e) => {
-    e.preventDefault();
-    await supabase.auth.signOut();
-    window.location.href = loginPath;
-  });
+  const topbarUser = document.querySelector("#topbar-user");
+  if (topbarUser) {
+    const iniciales = email.slice(0, 2).toUpperCase();
+    topbarUser.innerHTML = `<span class="topbar__avatar">${iniciales}</span><span class="topbar__email">${email}</span>`;
+  }
+  const btnSalir = document.querySelector("#btn-salir");
+  if (btnSalir) {
+    btnSalir.addEventListener("click", async (e) => {
+      e.preventDefault();
+      await supabase.auth.signOut();
+      window.location.href = loginPath;
+    });
+  }
 }
 
 /** Redirige a login.html si no hay sesión; si la hay, pinta el bloque de usuario en el nav. */

@@ -7,30 +7,47 @@
   <link rel="stylesheet" href="css/main.css" />
 </head>
 <body>
-  <div class="app-shell">
-    <nav class="app-nav">
-      <a href="pages/consultar.html">Consultar</a>
-      <a href="pages/crear.html">Crear ficha</a>
-    </nav>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="sidebar__brand">
+        <span class="sidebar__brand-icon" aria-hidden="true">📐</span>
+        <div>
+          <div class="sidebar__brand-title">Fichas Técnicas</div>
+          <div class="sidebar__brand-subtitle">Politécnico Grancolombiano</div>
+        </div>
+      </div>
+      <nav class="sidebar__nav">
+        <a href="pages/consultar.html" class="sidebar__link">🔍 Consultar</a>
+        <a href="pages/crear.html" class="sidebar__link">➕ Crear ficha</a>
+      </nav>
+      <a href="#" id="btn-salir" class="sidebar__link sidebar__link--danger">🚪 Salir</a>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <h1 class="topbar__title">Inicio</h1>
+        <div class="topbar__user" id="topbar-user"></div>
+      </header>
+      <div class="content">
+        <section class="hero">
+          <h1>Fichas Técnicas de Indicadores</h1>
+          <p>Sección independiente para gestionar el ciclo de vida de las fichas técnicas
+             de indicadores institucionales del Politécnico Grancolombiano. Datos
+             persistidos en Supabase; ver <code>README.md</code> para configuración.</p>
+        </section>
 
-    <section class="hero">
-      <h1>Fichas Técnicas de Indicadores</h1>
-      <p>Sección independiente para gestionar el ciclo de vida de las fichas técnicas
-         de indicadores institucionales del Politécnico Grancolombiano. Datos
-         persistidos en Supabase; ver <code>README.md</code> para configuración.</p>
-    </section>
-
-    <div class="hero-cards">
-      <a class="hero-card" href="pages/consultar.html">
-        <span class="hero-card__icon" aria-hidden="true">🔍</span>
-        <span class="hero-card__title">Consultar fichas</span>
-        <span class="hero-card__desc">Busca y filtra las fichas técnicas existentes por proceso, subproceso, nombre o responsable.</span>
-      </a>
-      <a class="hero-card" href="pages/crear.html">
-        <span class="hero-card__icon" aria-hidden="true">➕</span>
-        <span class="hero-card__title">Crear ficha</span>
-        <span class="hero-card__desc">Registra una nueva ficha técnica de indicador con generación automática de ID Kawak.</span>
-      </a>
+        <div class="hero-cards">
+          <a class="hero-card" href="pages/consultar.html">
+            <span class="hero-card__icon" aria-hidden="true">🔍</span>
+            <span class="hero-card__title">Consultar fichas</span>
+            <span class="hero-card__desc">Busca y filtra las fichas técnicas existentes por proceso, subproceso, nombre o responsable.</span>
+          </a>
+          <a class="hero-card" href="pages/crear.html">
+            <span class="hero-card__icon" aria-hidden="true">➕</span>
+            <span class="hero-card__title">Crear ficha</span>
+            <span class="hero-card__desc">Registra una nueva ficha técnica de indicador con generación automática de ID Kawak.</span>
+          </a>
+        </div>
+      </div>
     </div>
   </div>
 

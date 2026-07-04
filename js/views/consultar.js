@@ -42,15 +42,53 @@ function renderTablaResultados(rows) {
   tbody.innerHTML = "";
   for (const r of rows) {
     const tr = document.createElement("tr");
-    tr.innerHTML = `<td>${r.id_kawak}</td><td>${r.nombre_indicador ?? ""}</td><td>${r.proceso ?? ""}</td><td>${r.subproceso ?? ""}</td><td>${r.responsable_calculo ?? ""}</td>`;
+    tr.innerHTML = `<td>${r.id_kawak}</td><td>${r.nombre_indicador ?? ""}</td><td>${r.proceso ?? ""}</td><td>${r.subproceso ?? ""}</td><td>${r.frecuencia ?? ""}</td><td>${r.tipo_variables ?? ""}</td><td>${r.responsable_calculo ?? ""}</td>`;
     tr.addEventListener("click", () => mostrarFicha(r.id_kawak));
     tbody.appendChild(tr);
   }
 }
 
+/** Calcula qué números de página mostrar: primera, última, actual y vecinos, con "..." en los huecos. */
+function paginasAMostrar(actual, total) {
+  const set = new Set([1, total, actual, actual - 1, actual + 1]);
+  const paginas = [...set].filter((p) => p >= 1 && p <= total).sort((a, b) => a - b);
+  const resultado = [];
+  let anterior = 0;
+  for (const p of paginas) {
+    if (p - anterior > 1) resultado.push("...");
+    resultado.push(p);
+    anterior = p;
+  }
+  return resultado;
+}
+
 function renderPaginacion(total) {
   const totalPaginas = Math.max(1, Math.ceil(total / porPagina));
-  document.querySelector("#paginacion-info").textContent = `Página ${paginaActual} de ${totalPaginas}`;
+  const desde = total === 0 ? 0 : (paginaActual - 1) * porPagina + 1;
+  const hasta = Math.min(paginaActual * porPagina, total);
+  document.querySelector("#paginacion-info").textContent = `Mostrando ${desde}-${hasta} de ${total}`;
+
+  const cont = document.querySelector("#paginacion-paginas");
+  cont.innerHTML = "";
+  for (const p of paginasAMostrar(paginaActual, totalPaginas)) {
+    if (p === "...") {
+      const span = document.createElement("span");
+      span.className = "paginacion__ellipsis";
+      span.textContent = "…";
+      cont.appendChild(span);
+      continue;
+    }
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "paginacion__pagina" + (p === paginaActual ? " active" : "");
+    btn.textContent = p;
+    btn.addEventListener("click", () => {
+      paginaActual = p;
+      buscar();
+    });
+    cont.appendChild(btn);
+  }
+
   document.querySelector("#btn-pagina-anterior").disabled = paginaActual <= 1;
   document.querySelector("#btn-pagina-siguiente").disabled = paginaActual >= totalPaginas;
 }
