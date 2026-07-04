@@ -17,10 +17,12 @@ autogenerada). Ver el plan completo de diseño para el detalle de decisiones.
 2. En el SQL Editor, ejecuta en orden:
    - `supabase/migrations/0001_init.sql`
    - `supabase/migrations/0002_rls_policies.sql`
-3. En **Authentication**, habilita el proveedor que vayas a usar (Email/Password o
-   Magic Link) y crea los usuarios de los responsables (o usa invitaciones). El
-   frontend (`pages/login.html`) usa Magic Link: el usuario ingresa su correo y
-   recibe un enlace de acceso.
+3. En **Authentication**, habilita el proveedor **Email** con contraseña y crea
+   los usuarios de los responsables (o usa invitaciones) — puedes asignarles
+   una contraseña directamente desde el dashboard (Authentication > Users >
+   Add user) o pedirles que la definan al aceptar la invitación. El frontend
+   (`pages/login.html`) usa `signInWithPassword` (correo + contraseña); no
+   depende de que llegue un correo para iniciar sesión.
 
 ### 2. Importar los Excel existentes (una sola vez)
 

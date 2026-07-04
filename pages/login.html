@@ -10,11 +10,13 @@
   <div class="app-shell">
     <div class="login-card">
       <h1>Iniciar sesión</h1>
-      <p>Ingresa tu correo institucional y te enviaremos un enlace de acceso (Magic Link).</p>
+      <p>Ingresa tu correo institucional y tu contraseña.</p>
       <form id="form-login">
         <label for="login-email">Correo</label>
         <input id="login-email" type="email" required placeholder="nombre@poligran.edu.co" />
-        <button id="btn-enviar" type="submit" class="btn">Enviar enlace de acceso</button>
+        <label for="login-password">Contraseña</label>
+        <input id="login-password" type="password" required placeholder="••••••••" />
+        <button id="btn-enviar" type="submit" class="btn">Iniciar sesión</button>
       </form>
       <p id="login-msg" class="login-msg"></p>
     </div>

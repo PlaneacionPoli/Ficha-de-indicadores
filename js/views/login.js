@@ -14,23 +14,23 @@ async function redirigirSiYaHaySesion() {
   if (session) window.location.href = next;
 }
 
-async function enviarEnlace(e) {
+async function iniciarSesion(e) {
   e.preventDefault();
   const email = document.querySelector("#login-email").value.trim();
-  if (!email) return;
+  const password = document.querySelector("#login-password").value;
+  if (!email || !password) return;
 
   const btn = document.querySelector("#btn-enviar");
   btn.disabled = true;
-  const emailRedirectTo = `${window.location.origin}${window.location.pathname.replace("login.html", next)}`;
-  const { error } = await supabase.auth.signInWithOtp({ email, options: { emailRedirectTo } });
+  const { error } = await supabase.auth.signInWithPassword({ email, password });
   btn.disabled = false;
 
   if (error) {
     mostrarMensaje(`Error: ${error.message}`, "error");
   } else {
-    mostrarMensaje("Revisa tu correo: te enviamos un enlace de acceso.", "success");
+    window.location.href = next;
   }
 }
 
-document.querySelector("#form-login").addEventListener("submit", enviarEnlace);
+document.querySelector("#form-login").addEventListener("submit", iniciarSesion);
 redirigirSiYaHaySesion();
