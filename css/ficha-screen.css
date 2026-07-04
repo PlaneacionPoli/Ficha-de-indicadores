@@ -1,0 +1,200 @@
+/*
+ * Diseño moderno en pantalla de la ficha técnica (crear/consultar/editar).
+ * Reutiliza las mismas clases que genera js/views/fichaRender.js, pero con un
+ * look de tarjetas en vez de la réplica de grid del PDF (ver css/ficha-print.css,
+ * que sigue siendo la hoja usada por pages/imprimir.html).
+ */
+
+.ficha {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+/* 1. Encabezado de formato: logo | proceso/subproceso + título | código/versión */
+.ficha__encabezado {
+  display: grid;
+  grid-template-columns: 120px 1fr 180px;
+  align-items: center;
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.ficha__encabezado > div {
+  padding: var(--space-4);
+}
+
+.ficha__encabezado > div + div {
+  border-left: 1px solid var(--color-border);
+}
+
+.ficha__logo img { max-width: 100%; }
+.ficha__logo strong { color: var(--color-navy-dark); font-size: var(--fs-lg); }
+
+.ficha__titulo-formato {
+  text-align: center;
+  font-weight: 700;
+  color: var(--gray-800);
+}
+
+.ficha__titulo-formato small {
+  display: block;
+  font-weight: 400;
+  font-size: var(--fs-xs);
+  color: var(--gray-500);
+}
+
+.ficha__meta-formato div { font-size: var(--fs-xs); color: var(--gray-600); }
+
+/* 2. Tarjeta de sección */
+.ficha__card {
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.ficha__seccion-titulo {
+  background: var(--color-navy-dark);
+  color: #fff;
+  padding: var(--space-3) var(--space-4);
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  font-size: var(--fs-sm);
+}
+
+.ficha__card-body {
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+/* 3. Filas y campos: etiqueta arriba, valor debajo */
+.ficha__fila {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.ficha__fila--1 { grid-template-columns: 1fr; }
+.ficha__fila--2 { grid-template-columns: repeat(2, 1fr); }
+.ficha__fila--3 { grid-template-columns: repeat(3, 1fr); }
+
+.ficha__campo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.ficha__campo--full { grid-column: 1 / -1; }
+
+/* Fila de identidad del indicador (nombre + código) — más prominente que un campo normal */
+.ficha__campo--nombre .ficha__valor {
+  font-size: var(--fs-lg);
+  font-weight: 700;
+  color: var(--gray-900);
+}
+
+.ficha__campo--codigo .ficha__valor {
+  display: inline-flex;
+  width: fit-content;
+  font-family: ui-monospace, "Cascadia Mono", "SF Mono", Consolas, monospace;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: #fff;
+  background: var(--color-navy-dark);
+  padding: 0.3rem 0.65rem;
+  border-radius: var(--radius-md);
+}
+
+.ficha__etiqueta {
+  color: var(--gray-600);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.ficha__valor {
+  display: flex;
+  align-items: center;
+  min-height: 2.2rem;
+  font-size: var(--fs-sm);
+  color: var(--color-text);
+}
+
+.ficha__valor input,
+.ficha__valor select,
+.ficha__valor textarea {
+  width: 100%;
+}
+
+.ficha__valor textarea { resize: vertical; min-height: 4.5rem; }
+
+/* 4. Variables — bloque repetible */
+.ficha__variables {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.ficha__variables .ficha__fila {
+  background: var(--gray-50);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+  align-items: end;
+}
+
+.ficha__variable-header {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* 5. Metas y zonas */
+.ficha__zonas-tabla {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: var(--space-2) 0;
+  margin: var(--space-2) 0;
+}
+
+.ficha__zonas-tabla caption {
+  text-align: left;
+  font-weight: 600;
+  font-size: var(--fs-sm);
+  color: var(--gray-700);
+  padding: 0 0 var(--space-2);
+}
+
+.ficha__zonas-tabla th {
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+}
+
+.ficha__zonas-tabla td {
+  padding: var(--space-2) var(--space-3);
+  text-align: center;
+  font-size: var(--fs-sm);
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+}
+
+.ficha__zonas-tabla td input {
+  text-align: center;
+  background: transparent;
+  border-color: rgba(0, 0, 0, 0.15);
+}
+
+.zona-deficiente { background: var(--zona-deficiente-bg); color: var(--zona-deficiente-fg); }
+.zona-alerta { background: var(--zona-alerta-bg); color: var(--zona-alerta-fg); }
+.zona-cumplimiento { background: var(--zona-cumplimiento-bg); color: var(--zona-cumplimiento-fg); }
+.zona-sobrecumplimiento { background: var(--zona-sobrecumplimiento-bg); color: var(--zona-sobrecumplimiento-fg); }

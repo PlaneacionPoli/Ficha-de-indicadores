@@ -2,6 +2,7 @@ import { buscarIndicadores, getIndicador, getMetasHistoricas, getControlCambios 
 import { getZonasSemaforo } from "../api/catalogos.js";
 import { getProcesos, getSubprocesos } from "../api/procesos.js";
 import { renderFicha } from "./fichaRender.js";
+import { protegerPagina } from "../authGuard.js";
 
 function mostrarToast(msg, tipo = "success") {
   const el = document.createElement("div");
@@ -97,6 +98,11 @@ async function mostrarFicha(idKawak) {
   activarTab("ficha");
 }
 
-document.querySelectorAll(".tabs button").forEach((b) => b.addEventListener("click", () => activarTab(b.dataset.tab)));
-document.querySelector("#btn-buscar").addEventListener("click", buscar);
-poblarSelectProcesos();
+async function init() {
+  if (!(await protegerPagina())) return;
+  document.querySelectorAll(".tabs button").forEach((b) => b.addEventListener("click", () => activarTab(b.dataset.tab)));
+  document.querySelector("#btn-buscar").addEventListener("click", buscar);
+  await poblarSelectProcesos();
+}
+
+init();

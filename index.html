@@ -12,10 +12,26 @@
       <a href="pages/consultar.html">Consultar</a>
       <a href="pages/crear.html">Crear ficha</a>
     </nav>
-    <h1>Fichas Técnicas de Indicadores</h1>
-    <p>Sección independiente para gestionar el ciclo de vida de las fichas técnicas
-       de indicadores institucionales (Politécnico Grancolombiano). Datos
-       persistidos en Supabase; ver <code>README.md</code> para configuración.</p>
+
+    <section class="hero">
+      <h1>Fichas Técnicas de Indicadores</h1>
+      <p>Sección independiente para gestionar el ciclo de vida de las fichas técnicas
+         de indicadores institucionales del Politécnico Grancolombiano. Datos
+         persistidos en Supabase; ver <code>README.md</code> para configuración.</p>
+    </section>
+
+    <div class="hero-cards">
+      <a class="hero-card" href="pages/consultar.html">
+        <span class="hero-card__icon" aria-hidden="true">🔍</span>
+        <span class="hero-card__title">Consultar fichas</span>
+        <span class="hero-card__desc">Busca y filtra las fichas técnicas existentes por proceso, subproceso, nombre o responsable.</span>
+      </a>
+      <a class="hero-card" href="pages/crear.html">
+        <span class="hero-card__icon" aria-hidden="true">➕</span>
+        <span class="hero-card__title">Crear ficha</span>
+        <span class="hero-card__desc">Registra una nueva ficha técnica de indicador con generación automática de ID Kawak.</span>
+      </a>
+    </div>
   </div>
 </body>
 </html>

@@ -5,7 +5,7 @@
   <title>Consultar Ficha Técnica</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="../css/main.css" />
-  <link rel="stylesheet" href="../css/ficha-print.css" />
+  <link rel="stylesheet" href="../css/ficha-screen.css" />
 </head>
 <body>
   <div class="app-shell">
@@ -22,7 +22,7 @@
       <label>Nombre <input id="filtro-nombre" type="text" placeholder="Buscar por nombre..." /></label>
       <label>ID Kawak <input id="filtro-id" type="number" /></label>
       <label>Responsable <input id="filtro-responsable" type="text" /></label>
-      <label style="justify-content: flex-end;"><button id="btn-buscar" class="btn">Buscar</button></label>
+      <div class="filtros__actions"><button id="btn-buscar" class="btn">Buscar</button></div>
     </div>
 
     <table id="tabla-resultados" class="tabla-resultados">
@@ -33,9 +33,9 @@
     </table>
 
     <div id="detalle-ficha" style="display:none; margin-top: 1.5rem;">
-      <div class="no-imprimir" style="display:flex; gap:0.5rem; margin-bottom:0.5rem;">
-        <a id="btn-editar" class="btn">Editar</a>
-        <a id="btn-imprimir" class="btn secondary" target="_blank">Generar PDF</a>
+      <div class="no-imprimir detalle-acciones">
+        <a id="btn-editar" class="btn"><span aria-hidden="true">✎</span> Editar</a>
+        <a id="btn-imprimir" class="btn secondary" target="_blank"><span aria-hidden="true">🖨</span> Generar PDF</a>
       </div>
 
       <div class="tabs no-imprimir">

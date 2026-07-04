@@ -16,6 +16,7 @@ from __future__ import annotations
 import argparse
 import os
 import unicodedata
+from datetime import datetime, timezone
 from pathlib import Path
 
 import pandas as pd
@@ -57,12 +58,12 @@ ZONA_MAP = {
 def _norm(s: str) -> str:
     if s is None:
         return ""
-    s = unicodedata.normalize("NFKD", str(s)).strip()
+    s = unicodedata.normalize("NFC", str(s)).strip()
     return s
 
 
 def _clean(v):
-    if v is None:
+    if v is None or (isinstance(v, float) and pd.isna(v)):
         return None
     s = str(v).strip()
     if s.lower() in PLACEHOLDER_VALUES:
@@ -149,7 +150,8 @@ def import_indicadores(sb: Client, data_dir: Path) -> int:
     rows = []
     for _, r in df.iterrows():
         id_kawak = _clean(r.get("ID Kawak"))
-        if id_kawak is None:
+        nombre_indicador = _clean(r.get("Nombre del indicador"))
+        if id_kawak is None or nombre_indicador is None:
             continue
         rows.append({
             "id_kawak": int(id_kawak),
@@ -246,16 +248,17 @@ def import_control_cambios(sb: Client, data_dir: Path) -> int:
         id_kawak = _clean(r.get("ID_Kawak"))
         if id_kawak is None:
             continue
-        rows.append({
+        row = {
             "id_kawak": int(id_kawak),
             "nombre_indicador": _clean(r.get("Nombre del indicador")),
-            "fecha_cambio": str(r.get("Fecha_Cambio")) if r.get("Fecha_Cambio") is not None else None,
             "usuario_solicitud": _clean(r.get("Usuario_Solicitud")) or "desconocido",
             "campo_modificado": "legacy",
             "valor_anterior": None,
             "valor_nuevo": _clean(r.get("Cambios")),
             "justificacion": None,
-        })
+        }
+        row["fecha_cambio"] = _clean(r.get("Fecha_Cambio")) or datetime.now(timezone.utc).isoformat()
+        rows.append(row)
     existentes = {row["id_kawak"] for row in sb.table("indicadores").select("id_kawak").execute().data}
     rows = [r for r in rows if r["id_kawak"] in existentes]
     for i in range(0, len(rows), 200):
@@ -270,9 +273,9 @@ def import_catalogos(sb: Client, data_dir: Path) -> int:
         if categoria == "unidad_medida":
             valores = set()
             for c in ("Unidad V1", "Unidad V2", "Unidad V3"):
-                valores |= {v for v in df.get(c, pd.Series(dtype=str)).map(_clean) if v}
+                valores |= {v for v in df.get(c, pd.Series(dtype=str)).map(_clean) if isinstance(v, str) and v}
         else:
-            valores = {v for v in df.get(col, pd.Series(dtype=str)).map(_clean) if v}
+            valores = {v for v in df.get(col, pd.Series(dtype=str)).map(_clean) if isinstance(v, str) and v}
         for orden, valor in enumerate(sorted(valores)):
             rows.append({"categoria": categoria, "valor": valor, "orden": orden})
     if rows:

@@ -50,9 +50,9 @@ async function campoInput(nombre, valor, { tipo = "text", select } = {}) {
 async function fila(container, cols, campos, indicador, modo) {
   const filaEl = document.createElement("div");
   filaEl.className = `ficha__fila ficha__fila--${cols}`;
-  for (const { nombre, etiqueta, tipo, select, full } of campos) {
+  for (const { nombre, etiqueta, tipo, select, full, clase } of campos) {
     const campoEl = document.createElement("div");
-    campoEl.className = "ficha__campo" + (full ? " ficha__campo--full" : "");
+    campoEl.className = "ficha__campo" + (full ? " ficha__campo--full" : "") + (clase ? ` ${clase}` : "");
     const etiquetaEl = document.createElement("div");
     etiquetaEl.className = "ficha__etiqueta";
     etiquetaEl.textContent = etiqueta;
@@ -76,6 +76,18 @@ function barraSeccion(container, titulo) {
   container.appendChild(el);
 }
 
+/** Crea una tarjeta de sección (`.ficha__card`) con su barra de título y devuelve el body para agregarle filas. */
+function crearSeccion(container, titulo) {
+  const card = document.createElement("section");
+  card.className = "ficha__card";
+  const body = document.createElement("div");
+  body.className = "ficha__card-body";
+  barraSeccion(card, titulo);
+  card.appendChild(body);
+  container.appendChild(card);
+  return body;
+}
+
 function encabezadoFormato(container) {
   const el = document.createElement("div");
   el.className = "ficha__encabezado";
@@ -93,9 +105,9 @@ function encabezadoFormato(container) {
 }
 
 async function seccionVariables(container, indicador, modo) {
-  barraSeccion(container, "Formulas y Variables");
+  const body = crearSeccion(container, "Formulas y Variables");
   await fila(
-    container, 3,
+    body, 3,
     [
       { nombre: "tipo_variables", etiqueta: "Tipo de variables", select: "tipo_variables" },
       { nombre: "series", etiqueta: "Series" },
@@ -112,7 +124,7 @@ async function seccionVariables(container, indicador, modo) {
   for (const [i, v] of variables.entries()) {
     await filaVariable(wrap, v, i, modo);
   }
-  container.appendChild(wrap);
+  body.appendChild(wrap);
 
   if (modo === "edicion") {
     const header = document.createElement("div");
@@ -126,11 +138,11 @@ async function seccionVariables(container, indicador, modo) {
       await filaVariable(wrap, { nombre: "", unidad: "", fuente: "", orden: idx + 1 }, idx, modo);
     });
     header.appendChild(btnAdd);
-    container.appendChild(header);
+    body.appendChild(header);
   }
 
   await fila(
-    container, 2,
+    body, 2,
     [
       { nombre: "formato_evidencia", etiqueta: "Formato Evidencia" },
       { nombre: "nombre_evidencia", etiqueta: "Nombre Evidencia" },
@@ -224,9 +236,9 @@ async function tablaZonas(container, titulo, indicador, sufijo, zonas) {
 }
 
 async function seccionMetasZonas(container, indicador, modo, zonas) {
-  barraSeccion(container, "Metas y Zonas");
+  const body = crearSeccion(container, "Metas y Zonas");
   await fila(
-    container, 3,
+    body, 3,
     [
       { nombre: "meta_frecuencia", etiqueta: "Meta Frecuencia" },
       { nombre: "meta_sem1", etiqueta: "Meta 1 Semestre" },
@@ -235,11 +247,11 @@ async function seccionMetasZonas(container, indicador, modo, zonas) {
     indicador, modo
   );
   indicador._modo = modo;
-  await tablaZonas(container, "Indicador", indicador, "", zonas);
+  await tablaZonas(body, "Indicador", indicador, "", zonas);
 
   if (indicador.tipo_variables === "Multiserie") {
     await fila(
-      container, 3,
+      body, 3,
       [
         { nombre: "meta_serie_anual", etiqueta: "Meta Anual Series" },
         { nombre: "meta_sem1_serie", etiqueta: "Meta 1 Semestre Serie" },
@@ -247,7 +259,7 @@ async function seccionMetasZonas(container, indicador, modo, zonas) {
       ],
       indicador, modo
     );
-    await tablaZonas(container, "Series", indicador, "_serie", zonas);
+    await tablaZonas(body, "Series", indicador, "_serie", zonas);
   }
 }
 
@@ -262,29 +274,29 @@ export async function renderFicha(container, indicador, modo, zonas) {
   container.classList.add("ficha");
   encabezadoFormato(container);
 
-  barraSeccion(container, "Datos Generales del Indicador");
-  await fila(container, 2, [
-    { nombre: "nombre_indicador", etiqueta: "Nombre del Indicador", full: true },
-    { nombre: "id_kawak", etiqueta: "Código" },
+  const datosBody = crearSeccion(container, "Datos Generales del Indicador");
+  await fila(datosBody, 2, [
+    { nombre: "nombre_indicador", etiqueta: "Nombre del Indicador", full: true, clase: "ficha__campo--nombre" },
+    { nombre: "id_kawak", etiqueta: "Código", clase: "ficha__campo--codigo" },
   ], indicador, "lectura"); // id_kawak nunca es editable
-  await fila(container, 1, [
+  await fila(datosBody, 1, [
     { nombre: "descripcion", etiqueta: "Descripción del Indicador", tipo: "textarea", full: true },
   ], indicador, modo);
-  await fila(container, 3, [
+  await fila(datosBody, 3, [
     { nombre: "fecha_desde", etiqueta: "Fecha Desde", tipo: "date" },
     { nombre: "fecha_hasta", etiqueta: "Fecha Hasta", tipo: "date" },
     { nombre: "estado_indicador", etiqueta: "Estado", select: "estado_indicador" },
   ], indicador, modo);
-  await fila(container, 2, [
+  await fila(datosBody, 2, [
     { nombre: "unidad", etiqueta: "Unidad" },
     { nombre: "proceso", etiqueta: "Proceso" },
   ], indicador, modo);
-  await fila(container, 3, [
+  await fila(datosBody, 3, [
     { nombre: "tipo_indicador", etiqueta: "Tipo de Indicador", select: "tipo_indicador" },
     { nombre: "clasificacion", etiqueta: "Clasificación", select: "clasificacion" },
     { nombre: "subclasificacion", etiqueta: "Subclasificación", select: "subclasificacion" },
   ], indicador, modo);
-  await fila(container, 2, [
+  await fila(datosBody, 2, [
     { nombre: "linea_estrategica", etiqueta: "Linea_Estrategica", select: "linea_estrategica" },
     { nombre: "objetivo_estrategico", etiqueta: "Objetivo Estratégico", select: "objetivo_estrategico" },
   ], indicador, modo);
@@ -292,8 +304,8 @@ export async function renderFicha(container, indicador, modo, zonas) {
   await seccionVariables(container, indicador, modo);
   await seccionMetasZonas(container, indicador, modo, zonas);
 
-  barraSeccion(container, "Responsables");
-  await fila(container, 3, [
+  const respBody = crearSeccion(container, "Responsables");
+  await fila(respBody, 3, [
     { nombre: "responsable_analisis", etiqueta: "Responsable del análisis" },
     { nombre: "responsable_calculo", etiqueta: "Responsable del cálculo" },
     { nombre: "aprobador_1", etiqueta: "Usuario_Aprobador" },

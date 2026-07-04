@@ -158,5 +158,19 @@
     -webkit-appearance: none;
     appearance: none;
   }
+
+  /* Aplana cualquier estilo moderno de main.css (sombras, hover, zebra) para que
+     las tablas de metas/cambios se vean como el documento plano original. */
+  .tabla-resultados {
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .tabla-resultados th,
+  .tabla-resultados td {
+    background: #fff !important;
+    border: 1px solid var(--color-border);
+  }
+
   @page { size: A4; margin: 12mm; }
 }

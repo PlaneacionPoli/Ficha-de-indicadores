@@ -1,6 +1,7 @@
 import { crearIndicador, CAMPOS_FICHA } from "../api/indicadores.js";
 import { getZonasSemaforo } from "../api/catalogos.js";
 import { renderFicha, leerCamposDelForm } from "./fichaRender.js";
+import { protegerPagina } from "../authGuard.js";
 
 function mostrarToast(msg, tipo = "success") {
   const el = document.createElement("div");
@@ -14,6 +15,7 @@ const FICHA_VACIA = Object.fromEntries(CAMPOS_FICHA.map((c) => [c, c === "variab
 FICHA_VACIA.id_kawak = "(se autogenera al guardar)";
 
 async function init() {
+  if (!(await protegerPagina())) return;
   const zonas = await getZonasSemaforo();
   await renderFicha(document.querySelector("#panel-crear"), FICHA_VACIA, "edicion", zonas);
 }

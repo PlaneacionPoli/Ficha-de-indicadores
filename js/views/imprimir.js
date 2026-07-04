@@ -1,10 +1,12 @@
 import { getIndicador, getMetasHistoricas, getControlCambios } from "../api/indicadores.js";
 import { getZonasSemaforo } from "../api/catalogos.js";
 import { renderFicha } from "./fichaRender.js";
+import { protegerPagina } from "../authGuard.js";
 
 const idKawak = new URLSearchParams(window.location.search).get("id");
 
 async function init() {
+  if (!(await protegerPagina())) return;
   if (!idKawak) return;
   const [indicador, zonas, metas, cambios] = await Promise.all([
     getIndicador(idKawak),

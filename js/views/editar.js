@@ -2,6 +2,7 @@ import { getIndicador, editarIndicador } from "../api/indicadores.js";
 import { getZonasSemaforo } from "../api/catalogos.js";
 import { getUsuarios } from "../api/usuarios.js";
 import { renderFicha, leerCamposDelForm } from "./fichaRender.js";
+import { protegerPagina } from "../authGuard.js";
 
 function mostrarToast(msg, tipo = "success") {
   const el = document.createElement("div");
@@ -27,6 +28,7 @@ async function poblarResponsables() {
 }
 
 async function init() {
+  if (!(await protegerPagina())) return;
   if (!idKawak) {
     mostrarToast("Falta el parámetro ?id= en la URL", "error");
     return;
