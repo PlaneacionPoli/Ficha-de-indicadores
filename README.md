@@ -45,9 +45,13 @@ cp js/config.example.js js/config.js
 # edita js/config.js con tu SUPABASE_URL y anon key (Project Settings -> API)
 ```
 
-`js/config.js` está en `.gitignore` — no se sube al repo. El anon key es público
-por diseño en apps client-side; la seguridad real la da RLS
-(`0002_rls_policies.sql`), no ocultar esa key.
+`js/config.js` está en `.gitignore` — no se sube al repo, así que en local lo
+necesitas para probar, pero **en GitHub Pages el workflow lo genera solo** (ver
+paso 5); no hace falta subirlo a mano ni quitarlo del `.gitignore`. El anon key
+es público por diseño en apps client-side; la seguridad real la da RLS
+(`0002_rls_policies.sql`), no ocultar esa key — aun así se inyecta vía secrets
+de GitHub Actions en vez de committearlo, para no dejarlo en texto plano en el
+historial del repo.
 
 ### 4. Flujo de aprobación (Power Automate)
 
@@ -68,8 +72,17 @@ por diseño en apps client-side; la seguridad real la da RLS
 ### 5. Desplegar en GitHub Pages
 
 1. Sube este repo a GitHub.
-2. Settings -> Pages -> Deploy from branch -> `main` / raíz.
-3. Enlaza o incrusta `index.html` (o directamente `pages/consultar.html`) como
+2. Settings -> Pages -> Build and deployment -> Source: **GitHub Actions**
+   (el repo ya trae `.github/workflows/jekyll-gh-pages.yml`).
+3. Settings -> Secrets and variables -> Actions -> New repository secret, y
+   crea:
+   - `SUPABASE_URL`
+   - `SUPABASE_ANON_KEY`
+
+   El workflow genera `js/config.js` con estos valores en cada deploy, antes de
+   publicar el sitio — sin esto, el sitio publicado se queda sin `config.js` y
+   la app falla en silencio (pantalla vacía, sin login ni datos).
+4. Enlaza o incrusta `index.html` (o directamente `pages/consultar.html`) como
    sección dentro del sitio HTML institucional existente.
 
 ## Estructura
