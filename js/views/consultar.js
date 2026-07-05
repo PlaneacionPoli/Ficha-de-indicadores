@@ -1,7 +1,7 @@
 import { buscarIndicadores, getIndicador, getMetasHistoricas, getControlCambios } from "../api/indicadores.js";
 import { getZonasSemaforo } from "../api/catalogos.js";
 import { getProcesos, getSubprocesos } from "../api/procesos.js";
-import { renderFicha } from "./fichaRender.js";
+import { renderFicha, renderMetasHistoricas } from "./fichaRender.js";
 import { protegerPagina } from "../authGuard.js";
 
 function mostrarToast(msg, tipo = "success") {
@@ -141,11 +141,7 @@ async function mostrarFicha(idKawak) {
   ]);
 
   await renderFicha(document.querySelector("#panel-ficha"), indicador, "lectura", zonas);
-
-  const tbodyMetas = document.querySelector("#tabla-metas tbody");
-  tbodyMetas.innerHTML = metas.map((m) => `
-    <tr><td>${m.anio}</td><td>${m.meta_frecuencia ?? ""}</td><td>${m.meta_sem1 ?? ""}</td><td>${m.meta_sem2 ?? ""}</td></tr>
-  `).join("");
+  await renderMetasHistoricas(document.querySelector("#panel-metas"), metas, zonas);
 
   const tbodyCambios = document.querySelector("#tabla-cambios tbody");
   tbodyCambios.innerHTML = cambios.map((c) => `

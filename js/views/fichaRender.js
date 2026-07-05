@@ -267,6 +267,53 @@ async function seccionMetasZonas(container, indicador, modo, zonas) {
   }
 }
 
+/** ¿Tiene esta meta histórica algún dato a nivel de serie? (multiserie histórica). */
+function tieneDatosSerie(m, zonas) {
+  if (m.meta_serie_anual != null || m.meta_sem1_serie != null || m.meta_sem2_serie != null) return true;
+  return zonas.some((z) => m[`zona_${z.nivel}_serie`] != null);
+}
+
+/**
+ * Pinta las metas históricas (una tarjeta por año) con sus rangos de zona,
+ * incluyendo el bloque de Series cuando la meta histórica trae datos multiserie.
+ * @param {HTMLElement} container
+ * @param {Array} metas — filas de metas_historico (getMetasHistoricas)
+ * @param {Array} zonas — resultado de getZonasSemaforo()
+ */
+export async function renderMetasHistoricas(container, metas, zonas) {
+  container.innerHTML = "";
+  if (metas.length === 0) {
+    container.textContent = "Sin metas históricas registradas.";
+    return;
+  }
+  for (const m of metas) {
+    const body = crearSeccion(container, `Año ${m.anio}`);
+    await fila(
+      body, 3,
+      [
+        { nombre: "meta_frecuencia", etiqueta: "Meta Frecuencia" },
+        { nombre: "meta_sem1", etiqueta: "Meta 1 Semestre" },
+        { nombre: "meta_sem2", etiqueta: "Meta 2 Semestre" },
+      ],
+      m, "lectura"
+    );
+    await tablaZonas(body, "Indicador", m, "", zonas);
+
+    if (tieneDatosSerie(m, zonas)) {
+      await fila(
+        body, 3,
+        [
+          { nombre: "meta_serie_anual", etiqueta: "Meta Anual Series" },
+          { nombre: "meta_sem1_serie", etiqueta: "Meta 1 Semestre Serie" },
+          { nombre: "meta_sem2_serie", etiqueta: "Meta 2 Semestre Serie" },
+        ],
+        m, "lectura"
+      );
+      await tablaZonas(body, "Series", m, "_serie", zonas);
+    }
+  }
+}
+
 /**
  * @param {HTMLElement} container
  * @param {object} indicador

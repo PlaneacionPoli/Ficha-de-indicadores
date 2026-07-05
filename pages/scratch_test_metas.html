@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>Test metas</title>
+  <link rel="stylesheet" href="../css/main.css" />
+  <link rel="stylesheet" href="../css/ficha-screen.css" />
+</head>
+<body>
+  <div style="max-width:900px;margin:2rem auto;">
+    <div id="panel-metas"></div>
+  </div>
+  <script src="../js/config.js"></script>
+  <script type="module">
+    import { renderMetasHistoricas } from "../js/views/fichaRender.js";
+    const zonas = [
+      { nivel: "deficiente", etiqueta: "Deficiente", color_hex: "#E53935", color_texto: "#fff" },
+      { nivel: "alerta", etiqueta: "Alerta", color_hex: "#FFD400", color_texto: "#000" },
+      { nivel: "cumplimiento", etiqueta: "Cumplimiento", color_hex: "#2E7D32", color_texto: "#fff" },
+      { nivel: "sobrecumplimiento", etiqueta: "Sobrecumplimiento", color_hex: "#29ABE2", color_texto: "#fff" },
+    ];
+    const metas = [
+      {
+        anio: 2025, meta_frecuencia: "100%", meta_sem1: "100%", meta_sem2: "100%",
+        zona_deficiente: "0%-50%", zona_alerta: "51% - 94,99%", zona_cumplimiento: "95% -99,9%", zona_sobrecumplimiento: "100%",
+        meta_serie_anual: "100%", meta_sem1_serie: "100%", meta_sem2_serie: "100%",
+        zona_deficiente_serie: "0%-50%", zona_alerta_serie: "51% - 94,99%", zona_cumplimiento_serie: "95%-99,9%", zona_sobrecumplimiento_serie: "100%",
+      },
+      {
+        anio: 2024, meta_frecuencia: "85%", meta_sem1: "85%", meta_sem2: "85%",
+        zona_deficiente: "80%", zona_alerta: "84.99%- 80%", zona_cumplimiento: "85%- 89,9%", zona_sobrecumplimiento: "90%",
+        meta_serie_anual: null, meta_sem1_serie: null, meta_sem2_serie: null,
+        zona_deficiente_serie: null, zona_alerta_serie: null, zona_cumplimiento_serie: null, zona_sobrecumplimiento_serie: null,
+      },
+    ];
+    renderMetasHistoricas(document.getElementById("panel-metas"), metas, zonas);
+  </script>
+</body>
+</html>
