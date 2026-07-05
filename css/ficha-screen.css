@@ -85,6 +85,7 @@
 .ficha__fila--1 { grid-template-columns: 1fr; }
 .ficha__fila--2 { grid-template-columns: repeat(2, 1fr); }
 .ficha__fila--3 { grid-template-columns: repeat(3, 1fr); }
+.ficha__fila--nombre-codigo { grid-template-columns: 3fr 1fr; }
 
 .ficha__campo {
   display: flex;

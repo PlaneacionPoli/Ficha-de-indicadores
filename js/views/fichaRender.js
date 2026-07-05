@@ -279,8 +279,8 @@ export async function renderFicha(container, indicador, modo, zonas) {
   encabezadoFormato(container);
 
   const datosBody = crearSeccion(container, "Datos Generales del Indicador");
-  await fila(datosBody, 2, [
-    { nombre: "nombre_indicador", etiqueta: "Nombre del Indicador", full: true, clase: "ficha__campo--nombre" },
+  await fila(datosBody, "nombre-codigo", [
+    { nombre: "nombre_indicador", etiqueta: "Nombre del Indicador", clase: "ficha__campo--nombre" },
     { nombre: "id_kawak", etiqueta: "Código", clase: "ficha__campo--codigo" },
   ], indicador, "lectura"); // id_kawak nunca es editable
   await fila(datosBody, 1, [
