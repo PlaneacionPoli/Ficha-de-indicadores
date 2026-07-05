@@ -71,6 +71,22 @@ def _clean(v):
     return s
 
 
+def _bool(v) -> bool:
+    """Convierte los valores del Excel (true/false/Si/Sí) a booleano. Cualquier otra cosa -> False."""
+    s = _clean(v)
+    return s is not None and s.strip().lower() in {"true", "si", "sí", "1", "x"}
+
+
+def _int(v):
+    s = _clean(v)
+    if s is None:
+        return None
+    try:
+        return int(float(s))
+    except ValueError:
+        return None
+
+
 def get_client() -> Client:
     url = os.environ["SUPABASE_URL"]
     key = os.environ["SUPABASE_SERVICE_ROLE_KEY"]
@@ -199,7 +215,24 @@ def import_indicadores(sb: Client, data_dir: Path) -> int:
             "nombre_evidencia": _clean(r.get("Nombre_Evidencia")),
             "tipo_kawak": _clean(r.get("Tipo_Kawak")),
             "created_by": _clean(r.get("Creado por")),
+            "pdi": _bool(r.get("PDI")),
+            "cna_snies": _bool(r.get("CNA/SNIES")),
+            "desempeno_proceso": _bool(r.get("Desempeño del proceso")),
+            "permite_toma_decisiones": _bool(r.get("Decisiones Proceso")),
+            "decision_indicador": _clean(r.get("Estado")) or "Pendiente",
+            "anio_vigencia": _int(r.get("Año")),
+            "factor_cna": _clean(r.get("Factor_CNA")),
+            "caracteristica_cna": _clean(r.get("Caracteristica")),
+            "proyecto_asociado": _clean(r.get("Proyecto_Asociado")),
         })
+        # created_at/updated_at son NOT NULL; solo se fijan si el Excel realmente trae la fecha
+        # (si no, se omiten para que aplique el default now() de la columna).
+        creado = _clean(r.get("Creado"))
+        modificado = _clean(r.get("Modificado"))
+        if creado:
+            rows[-1]["created_at"] = creado
+        if modificado:
+            rows[-1]["updated_at"] = modificado
     # Insertar en lotes de 200 para no exceder límites de payload
     for i in range(0, len(rows), 200):
         sb.table("indicadores").insert(rows[i:i + 200]).execute()

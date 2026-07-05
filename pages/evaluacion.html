@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>Evaluación de Indicadores</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="../css/main.css" />
+  <link rel="stylesheet" href="../css/ficha-screen.css" />
+  <link rel="stylesheet" href="../css/evaluacion.css" />
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="sidebar__brand">
+        <span class="sidebar__brand-icon" aria-hidden="true">📐</span>
+        <div>
+          <div class="sidebar__brand-title">Fichas Técnicas</div>
+          <div class="sidebar__brand-subtitle">Politécnico Grancolombiano</div>
+        </div>
+      </div>
+      <nav class="sidebar__nav">
+        <a href="consultar.html" class="sidebar__link">🔍 Consultar</a>
+        <a href="crear.html" class="sidebar__link">➕ Crear ficha</a>
+        <a href="evaluacion.html" class="sidebar__link active">✅ Evaluación</a>
+      </nav>
+      <a href="#" id="btn-salir" class="sidebar__link sidebar__link--danger">🚪 Salir</a>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <h1 class="topbar__title">Evaluación de Indicadores</h1>
+        <div class="topbar__user" id="topbar-user"></div>
+      </header>
+      <div class="content">
+        <div class="filtros">
+          <label>Id Indicador <input id="filtro-id" type="number" /></label>
+          <label>Nombre de Indicador <input id="filtro-nombre" type="text" placeholder="Buscar por nombre..." /></label>
+          <label>Proceso <select id="filtro-proceso"><option value="">Todos</option></select></label>
+          <label>Subproceso <select id="filtro-subproceso"><option value="">Todos</option></select></label>
+          <label>Tipo <select id="filtro-tipo"><option value="">Todos</option></select></label>
+          <div class="filtros__actions">
+            <button id="btn-buscar" class="btn">Buscar</button>
+            <a href="crear.html" class="btn secondary">+ Propuesta de indicador</a>
+          </div>
+        </div>
+
+        <div class="tabla-scroll">
+          <table id="tabla-evaluacion" class="tabla-resultados tabla-evaluacion">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nombre del indicador</th>
+                <th>Proceso</th>
+                <th>PDI</th>
+                <th>CNA/SNIES y Otros Entes</th>
+                <th>Desempeño del proceso</th>
+                <th>¿Este indicador le permite la toma de decisiones?</th>
+                <th>Decisión del indicador</th>
+                <th>Ver Ficha</th>
+                <th>Actualizar Indicador</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+
+        <div class="paginacion no-imprimir">
+          <label>Por página
+            <select id="filtro-por-pagina">
+              <option value="10">10</option>
+              <option value="25" selected>25</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>
+          </label>
+          <span id="paginacion-info"></span>
+          <div class="paginacion__controles">
+            <button id="btn-pagina-anterior" class="btn ghost" type="button">‹</button>
+            <div class="paginacion__paginas" id="paginacion-paginas"></div>
+            <button id="btn-pagina-siguiente" class="btn ghost" type="button">›</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/config.js"></script>
+  <script type="module" src="../js/views/evaluacion.js"></script>
+</body>
+</html>

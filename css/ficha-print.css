@@ -57,6 +57,13 @@
   letter-spacing: 0.03em;
   text-transform: uppercase;
   font-size: 0.85rem;
+  border-radius: 6px;
+}
+
+/* Metas Históricas / Control de Cambios quedan fuera de `.ficha`: un poco de aire
+   para que no se vean pegadas al final de la ficha ni entre sí. */
+.ficha ~ .ficha__seccion-titulo {
+  margin-top: 1.5rem;
 }
 
 /* 3. Filas de campos: pastilla azul (etiqueta) + valor */
@@ -92,6 +99,8 @@
   padding: 0.4rem 0.6rem;
   display: flex;
   align-items: center;
+  justify-content: center;
+  text-align: center;
   min-height: 1.8rem;
 }
 
@@ -146,6 +155,14 @@
   text-align: center;
   font-size: 0.8rem;
   border: 1px solid var(--color-border);
+}
+
+/* 6. Metas Históricas / Control de Cambios (tablas fuera de `.ficha`) */
+#tabla-metas th,
+#tabla-metas td,
+#tabla-cambios th,
+#tabla-cambios td {
+  text-align: center;
 }
 
 .zona-deficiente { background: var(--zona-deficiente-bg); color: var(--zona-deficiente-fg); }

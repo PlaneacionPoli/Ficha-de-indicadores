@@ -14,18 +14,37 @@ export const CAMPOS_FICHA = [
   "formato_evidencia", "nombre_evidencia", "tipo_kawak",
 ];
 
-export async function buscarIndicadores({ proceso, subproceso, nombre, idKawak, responsable, pagina = 1, porPagina = 25 } = {}) {
-  let query = supabase.from("indicadores").select("*", { count: "exact" });
+export async function buscarIndicadores({ proceso, subproceso, nombre, idKawak, responsable, tipo, pagina = 1, porPagina = 25 } = {}) {
+  let query = supabase.from("indicadores").select("*", { count: "exact" }).in("estado_indicador", ["Activo", "Stand by"]);
   if (proceso) query = query.eq("proceso", proceso);
   if (subproceso) query = query.eq("subproceso", subproceso);
   if (nombre) query = query.ilike("nombre_indicador", `%${nombre}%`);
   if (idKawak) query = query.eq("id_kawak", idKawak);
   if (responsable) query = query.or(`responsable_calculo.ilike.%${responsable}%,responsable_analisis.ilike.%${responsable}%`);
+  if (tipo) query = query.eq("tipo_indicador", tipo);
   const desde = (pagina - 1) * porPagina;
   const hasta = desde + porPagina - 1;
   const { data, error, count } = await query.order("id_kawak", { ascending: true }).range(desde, hasta);
   if (error) throw error;
   return { rows: data, total: count };
+}
+
+/** Guarda los campos de la pantalla "Evaluación de indicadores" (checkboxes + decisión). */
+export async function actualizarEvaluacion(idKawak, { pdi, cnaSnies, desempenoProceso, permiteTomaDecisiones, decisionIndicador }) {
+  const usuario = await usuarioActual();
+  const { error } = await supabase
+    .from("indicadores")
+    .update({
+      pdi,
+      cna_snies: cnaSnies,
+      desempeno_proceso: desempenoProceso,
+      permite_toma_decisiones: permiteTomaDecisiones,
+      decision_indicador: decisionIndicador,
+      updated_by: usuario?.email ?? "desconocido",
+      updated_at: new Date().toISOString(),
+    })
+    .eq("id_kawak", idKawak);
+  if (error) throw error;
 }
 
 export async function getIndicador(idKawak) {
