@@ -150,7 +150,7 @@ async function mostrarFicha(idKawak) {
   const tbodyCambios = document.querySelector("#tabla-cambios tbody");
   tbodyCambios.innerHTML = cambios.map((c) => `
     <tr>
-      <td>${new Date(c.fecha_cambio).toLocaleString()}</td>
+      <td>${new Date(c.fecha_cambio).toLocaleDateString()}</td>
       <td>${c.usuario_solicitud ?? ""}</td>
       <td>${c.campo_modificado ?? ""}</td>
       <td>${c.valor_anterior ?? ""}</td>

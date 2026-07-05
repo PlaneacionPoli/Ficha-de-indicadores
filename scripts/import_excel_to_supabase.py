@@ -287,8 +287,8 @@ def import_control_cambios(sb: Client, data_dir: Path) -> int:
             "usuario_solicitud": _clean(r.get("Usuario_Solicitud")) or "desconocido",
             "campo_modificado": "legacy",
             "valor_anterior": None,
-            "valor_nuevo": _clean(r.get("Cambios")),
-            "justificacion": None,
+            "valor_nuevo": None,
+            "justificacion": _clean(r.get("Cambios")),
         }
         row["fecha_cambio"] = _clean(r.get("Fecha_Cambio")) or datetime.now(timezone.utc).isoformat()
         rows.append(row)
