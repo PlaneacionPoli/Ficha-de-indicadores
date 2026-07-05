@@ -17,6 +17,9 @@ async function init() {
 
   await renderFicha(document.querySelector("#panel-ficha"), indicador, "lectura", zonas);
 
+  // El navegador usa document.title como nombre sugerido al "Guardar como PDF" / imprimir.
+  document.title = String(indicador.id_kawak);
+
   document.querySelector("#tabla-metas tbody").innerHTML = metas.map((m) => `
     <tr><td>${m.anio}</td><td>${m.meta_frecuencia ?? ""}</td><td>${m.meta_sem1 ?? ""}</td><td>${m.meta_sem2 ?? ""}</td></tr>
   `).join("");
