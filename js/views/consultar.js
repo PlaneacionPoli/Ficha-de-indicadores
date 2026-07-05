@@ -148,9 +148,6 @@ async function mostrarFicha(idKawak) {
     <tr>
       <td>${new Date(c.fecha_cambio).toLocaleDateString()}</td>
       <td>${c.usuario_solicitud ?? ""}</td>
-      <td>${c.campo_modificado ?? ""}</td>
-      <td>${c.valor_anterior ?? ""}</td>
-      <td>${c.valor_nuevo ?? ""}</td>
       <td>${c.justificacion ?? ""}</td>
     </tr>
   `).join("");
