@@ -159,8 +159,8 @@ def import_indicadores(sb: Client, data_dir: Path) -> int:
             "nombre_indicador": _clean(r.get("Nombre del indicador")),
             "descripcion": _clean(r.get("Descripción del indicador")),
             "unidad": _clean(r.get("Unidad")),
-            "proceso": _clean(r.get("Proceso/Subproceso")),
-            "subproceso": None,  # 'Proceso/Subproceso' viene combinado en el Excel origen; separar manualmente si aplica
+            "proceso": _clean(r.get("Proceso")),
+            "subproceso": _clean(r.get("Subproceso")),
             "linea_estrategica": _clean(r.get("Linea_Estrategica")),
             "objetivo_estrategico": _clean(r.get("Objetivo_Estrategico")),
             "tipo_indicador": _clean(r.get("Tipo de Indicador")),
@@ -283,12 +283,29 @@ def import_catalogos(sb: Client, data_dir: Path) -> int:
     return len(rows)
 
 
+def reset_tablas(sb: Client) -> None:
+    """Borra todas las filas de las tablas cargadas por este script, en orden de dependencia.
+
+    metas_historico/control_cambios/solicitudes_aprobacion tienen FK on delete cascade
+    hacia indicadores, así que se limpian solas al borrar indicadores.
+    """
+    sb.table("indicadores").delete().gte("id_kawak", 0).execute()
+    for tabla in ("catalogos", "usuarios", "mapa_procesos"):
+        sb.table(tabla).delete().neq("id", "00000000-0000-0000-0000-000000000000").execute()
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--data-dir", type=Path, required=True, help="Carpeta con los 5 .xlsx de origen")
+    parser.add_argument("--reset", action="store_true",
+                         help="Borra las filas existentes de todas las tablas antes de recargar")
     args = parser.parse_args()
 
     sb = get_client()
+
+    if args.reset:
+        print("Borrando datos existentes...")
+        reset_tablas(sb)
 
     print("Importando mapa_procesos...", n := import_mapa_procesos(sb, args.data_dir))
     print("Importando usuarios...", n := import_usuarios(sb, args.data_dir))

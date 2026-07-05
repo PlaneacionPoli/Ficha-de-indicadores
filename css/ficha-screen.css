@@ -11,43 +11,44 @@
   gap: var(--space-6);
 }
 
-/* 1. Encabezado de formato: logo | proceso/subproceso + título | código/versión */
+/* 1. Encabezado de formato: tabla institucional (logo a todo el ancho + proceso/subproceso | título | código/versión) */
 .ficha__encabezado {
-  display: grid;
-  grid-template-columns: 120px 1fr 180px;
-  align-items: center;
-  background: #fff;
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-sm);
   overflow: hidden;
+  box-shadow: var(--shadow-sm);
 }
 
-.ficha__encabezado > div {
+.ficha__encabezado td {
+  border: 1px solid var(--color-border);
+  padding: var(--space-4);
+  vertical-align: middle;
+  font-size: var(--fs-sm);
+  color: var(--color-text);
+}
+
+.ficha__encabezado-logo {
+  text-align: center;
   padding: var(--space-4);
 }
 
-.ficha__encabezado > div + div {
-  border-left: 1px solid var(--color-border);
+.ficha__encabezado-logo img {
+  max-height: 70px;
 }
 
-.ficha__logo img { max-width: 100%; }
-.ficha__logo strong { color: var(--color-navy-dark); font-size: var(--fs-lg); }
+.ficha__encabezado-proceso { width: 26%; }
 
-.ficha__titulo-formato {
+.ficha__encabezado-titulo {
+  width: 55%;
   text-align: center;
   font-weight: 700;
   color: var(--gray-800);
 }
 
-.ficha__titulo-formato small {
-  display: block;
-  font-weight: 400;
-  font-size: var(--fs-xs);
-  color: var(--gray-500);
-}
-
-.ficha__meta-formato div { font-size: var(--fs-xs); color: var(--gray-600); }
+.ficha__encabezado-meta { width: 19%; font-size: var(--fs-xs); color: var(--gray-600); }
 
 /* 2. Tarjeta de sección */
 .ficha__card {

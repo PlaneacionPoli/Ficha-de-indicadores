@@ -89,18 +89,22 @@ function crearSeccion(container, titulo) {
 }
 
 function encabezadoFormato(container) {
-  const el = document.createElement("div");
+  const el = document.createElement("table");
   el.className = "ficha__encabezado";
   el.innerHTML = `
-    <div class="ficha__logo"><strong>POLI</strong></div>
-    <div class="ficha__titulo-formato">
-      FORMATO<br><small>FICHA TÉCNICA DE INDICADORES</small><br>
-      <small>PROCESO: Direccionamiento Estratégico · SUBPROCESO: Desempeño institucional</small>
-    </div>
-    <div class="ficha__meta-formato">
-      <div><strong>Código:</strong> DE-DIRGI</div>
-      <div><strong>Versión:</strong> 1</div>
-    </div>`;
+    <tr>
+      <td class="ficha__encabezado-logo" colspan="3"><img src="../assets/Logo.png" alt="Politécnico Grancolombiano" /></td>
+    </tr>
+    <tr>
+      <td class="ficha__encabezado-proceso"><strong>PROCESO:</strong><br>Direccionamiento Estratégico</td>
+      <td class="ficha__encabezado-titulo">FORMATO</td>
+      <td class="ficha__encabezado-meta"><strong>Código:</strong> DE-DIRGI</td>
+    </tr>
+    <tr>
+      <td class="ficha__encabezado-proceso"><strong>SUBPROCESO:</strong><br>Desempeño institucional</td>
+      <td class="ficha__encabezado-titulo">FICHA TÉCNICA DE INDICADORES</td>
+      <td class="ficha__encabezado-meta"><strong>Versión:</strong> 1</td>
+    </tr>`;
   container.appendChild(el);
 }
 
